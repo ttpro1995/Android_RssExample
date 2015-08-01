@@ -1,6 +1,8 @@
 package com.hahattpro.meowdebughelper;
 
 import android.content.Context;
+import android.os.Environment;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -19,16 +21,20 @@ import java.io.OutputStreamWriter;
  * contructor take FILE_NAME, what in that file, context of activity
  *
  */
-public class CreateFile {
+public class SaveFile {
     private File file;//contain file
     private String FILE_NAME;//name of file
     private Context context;// context from activity
-    public CreateFile(String NAME, String file_body, Context appContext) {
+    private String path;
+
+
+    public SaveFile(String NAME, String file_body, Context appContext) {
         FILE_NAME =NAME;
     context = appContext;
-
+    path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)+ "/" +FILE_NAME;
         try{
-            FileOutputStream out = context.openFileOutput(FILE_NAME,0);
+            file = new File(path);
+            FileOutputStream out = new FileOutputStream(file);
             OutputStreamWriter writer = new OutputStreamWriter(out);
             writer.write(file_body);
             writer.close();
@@ -40,8 +46,7 @@ public class CreateFile {
         catch (IOException e){
             //do nothing
         }
-
-        file = context.getFileStreamPath(FILE_NAME);//put into file
+        Log.i("SaveFile path","path : "+path);
     }
 
     public File getFile()

@@ -15,6 +15,7 @@ import android.widget.ListView;
 import com.hahattpro.meowdebughelper.CopyInputStream;
 import com.hahattpro.meowdebughelper.CreateFile;
 import com.hahattpro.meowdebughelper.Mailer;
+import com.hahattpro.meowdebughelper.SaveFile;
 import com.hahattpro.simplistic_rss.RssItem;
 import com.hahattpro.simplistic_rss.RssReader;
 
@@ -43,6 +44,7 @@ public class MainActivity extends ActionBarActivity {
         listView = (ListView) findViewById(R.id.mListView);
 
         new RssAsynTask().execute("http://rss.cnn.com/rss/edition.rss");
+        new Test1GetString().execute();
     }
 
     @Override
@@ -102,8 +104,8 @@ public class MainActivity extends ActionBarActivity {
             String body = copyInputStream.getString();
             Log.i(LOCAL_TAG,"done get stream");
 
-            CreateFile createFile = new CreateFile("test1_"+System.currentTimeMillis()+"xml",body,MainActivity.this);
-            File file =createFile.getFile();
+            SaveFile saveFile = new SaveFile("test1_"+System.currentTimeMillis()+".xml",body,MainActivity.this);
+            File file =saveFile.getFile();
             Mailer meow = new Mailer(MainActivity.this);
             meow.SendMail(testingEmail,"test1_"+System.currentTimeMillis(),"meow",file);
             return null;
